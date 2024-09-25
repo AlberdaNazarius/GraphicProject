@@ -1,5 +1,5 @@
 import Matrix from "@/components/matrix/Matrix";
-import ImageUploader from "@/components/ImageUploader";
+import FunctionalZone from "@/components/FunctionalZone";
 
 
 export default function Home() {
@@ -8,7 +8,7 @@ export default function Home() {
       <div>
         <Matrix dimension={3}/>
         <div className="my-3"></div>
-        <ImageUploader/>
+        <FunctionalZone/>
       </div>
     </main>
   );
