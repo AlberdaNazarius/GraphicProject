@@ -1,7 +1,8 @@
 'use client'
 
 import './Matrix.css'
-import {useState} from "react";
+import {useEffect, useState} from "react";
+import {useFilterContext} from "@/contexts/FilterContext";
 
 interface Props {
   dimension: number;
@@ -10,9 +11,17 @@ interface Props {
 export default function Matrix(props: Props) {
   const basicDimension = props.dimension
 
+  const { selectedKernel } = useFilterContext();
   const [dimension, setDimension] = useState(basicDimension);
   const [values, setValues] = useState<string[][]>(Array(10).fill(Array(10).fill('')));
 
+  useEffect(() => {
+    if (selectedKernel) {
+      const newDimension = selectedKernel.kernel.length;
+      setDimension(newDimension); // Оновлюємо розмір матриці
+      setValues(selectedKernel.kernel.map(row => row.map(value => value.toString()))); // Заповнюємо матрицю значеннями фільтра
+    }
+  }, [selectedKernel]);
 
   const handleInputChange = (rowIndex: number, index: number, event: React.ChangeEvent<HTMLInputElement>) => {
     setValues(prevValues => {
@@ -24,12 +33,11 @@ export default function Matrix(props: Props) {
 
   const resizeValues = (newDimension: number) => {
     setValues(prevValues => {
-      const newValues = Array.from({length: newDimension}, (_, i) =>
+      return Array.from({length: newDimension}, (_, i) =>
         Array.from({length: newDimension}, (_, j) =>
           prevValues[i] && prevValues[i][j] ? prevValues[i][j] : ''
         )
       );
-      return newValues;
     });
   };
 
@@ -57,6 +65,7 @@ export default function Matrix(props: Props) {
         {Array.from({length: dimension}, (_, rowIndex) => (
           <div key={rowIndex} className="row">
             {Array.from({length: dimension}, (_, colIndex) => (
+              // eslint-disable-next-line react/jsx-key
               <input
                 type="text"
                 className='input input-bordered p-1 text-center'
