@@ -70,8 +70,8 @@ export default function Matrix(props: Props) {
   return (
     <div className='flex flex-col items-center mt-4'>
       <div className='flex items-center justify-between gap-2'>
-        <button onClick={() => changeDimension(dimension + 1)} className='btn btn-active rounded-2xl text-xl'>+</button>
-        <button onClick={() => changeDimension(dimension - 1)} className='btn btn-active rounded-2xl text-2xl'>-
+        <button onClick={() => changeDimension(dimension + 1)} className='btn rounded-2xl text-xl'>+</button>
+        <button onClick={() => changeDimension(dimension - 1)} className='btn rounded-2xl text-2xl'>-
         </button>
       </div>
       <div className='mt-6'>

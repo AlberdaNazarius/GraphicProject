@@ -4,12 +4,38 @@ export type Kernel = {
 };
 
 export const filters: Record<string, Kernel> = {
+  smoothing_1: {
+    title: "Smoothing",
+    kernel: [
+      [1, 1, 1],
+      [1, 1, 1],
+      [1, 1, 1]
+    ]
+  },
   gaussianBlur3: {
     title: "Gaussian Blur Kernel (3x3)",
     kernel: [
       [1, 2, 1],
       [2, 4, 2],
       [1, 2, 1]
+    ]
+  },
+  gaussLowPass: {
+    title: "Gauss (Low Pass)",
+    kernel: [
+      [13, 8, 13],
+      [8, 5, 8],
+      [13, 8, 13]
+    ]
+  },
+  gaussHighPass: {
+    title: "Gauss (High Pass)",
+    kernel: [
+      [0, 0, -1, 0, 0],
+      [0, -1, -2, -1, 0],
+      [-1, -2, 16, -2, -1],
+      [0, -1, -2, -1, 0],
+      [0, 0, -1, 0, 0],
     ]
   },
   gaussianBlurKernel5: {
@@ -28,6 +54,14 @@ export const filters: Record<string, Kernel> = {
       [-1, -1, -1],
       [-1, 8, -1],
       [-1, -1, -1]
+    ]
+  },
+  laplaceLowPassKernel3: {
+    title: "Laplace low Pass Kernel (3x3)",
+    kernel: [
+      [0, -1, 0],
+      [-1, 4, -1],
+      [0, -1, 0]
     ]
   },
   laplaceHighPassKernel5: {
@@ -70,6 +104,38 @@ export const filters: Record<string, Kernel> = {
       [1, 2, 1],
       [0, 0, 0],
       [-1, -2, -1]
+    ]
+  },
+  hipass: {
+    title: 'Hipass',
+    kernel: [
+      [-1, -1, -1],
+      [-1, 9, -1],
+      [-1, -1, -1]
+    ]
+  },
+  sharpen: {
+    title: 'Sharpen',
+    kernel: [
+      [-1, -1, -1],
+      [-1, 16, -1],
+      [-1, -1, -1]
+    ]
+  },
+  softening: {
+    title: 'Softening',
+    kernel: [
+      [2, 2, 2],
+      [2, 0, 2],
+      [2, 2, 2]
+    ]
+  },
+  edgeDetection: {
+    title: 'Edge Detection',
+    kernel: [
+      [1, 1, 1],
+      [1, -2, 1],
+      [-1, -1, -1]
     ]
   },
 };
