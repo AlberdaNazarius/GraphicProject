@@ -1,18 +1,18 @@
-import React from 'react';
+import { useImageContext } from '@/contexts/ImageContext'
 
 interface Props {
   imagePath: string;
 }
 
-function Images(props: Props) {
-  const {imagePath} = props;
+const Images: React.FC<Props> = ({ imagePath }) => {
+  const { imageRef, modImageRef } = useImageContext();
 
   return (
     <div className='flex mt-14 gap-10'>
-      <img src={imagePath} alt="Selected" width='500'/>
-      <img id='mod-img' src={imagePath} alt="Selected" width='500'/>
+      <img className='grayscale' ref={imageRef} src={imagePath} alt="Original" width='500' />
+      <img className='grayscale' ref={modImageRef} src={imagePath} alt="Modified" width='500'/>
     </div>
   );
-}
+};
 
 export default Images;
