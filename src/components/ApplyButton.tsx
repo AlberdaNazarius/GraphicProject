@@ -11,7 +11,7 @@ const ApplyButton: React.FC = () => {
     const image = imageRef.current;
     const modImage = modImageRef.current;
 
-    applyFilter(selectedKernel, image, modImage);
+    applyFilter(image, modImage, selectedKernel);
   };
 
 
