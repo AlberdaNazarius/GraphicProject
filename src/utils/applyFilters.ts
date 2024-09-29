@@ -60,6 +60,10 @@ export const applyFilter = (
         }
       }
 
+      r = Math.abs(r);
+      g = Math.abs(g);
+      b = Math.abs(b);
+
       const index = (y * image.width + x) * 4;
       newData[index] = Math.min(Math.max(r / kernelSum, 0), 255);     // Red channel
       newData[index + 1] = Math.min(Math.max(g / kernelSum, 0), 255); // Green channel

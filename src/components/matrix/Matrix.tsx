@@ -3,6 +3,7 @@
 import './Matrix.css'
 import {useEffect, useState} from "react";
 import {useFilterContext} from "@/contexts/FilterContext";
+import {Kernel} from "@/types/filters";
 
 interface Props {
   dimension: number;
@@ -11,24 +12,34 @@ interface Props {
 export default function Matrix(props: Props) {
   const basicDimension = props.dimension
 
-  const { selectedKernel } = useFilterContext();
+  const {selectedKernel, setSelectedKernel} = useFilterContext();
   const [dimension, setDimension] = useState(basicDimension);
-  const [values, setValues] = useState<string[][]>(Array(10).fill(Array(10).fill('')));
+  const [values, setValues] = useState<string[][]>(Array(basicDimension).fill(Array(basicDimension).fill('')));
 
   useEffect(() => {
-    if (selectedKernel) {
+    if (selectedKernel && selectedKernel.title != 'Custom') {
       const newDimension = selectedKernel.kernel.length;
-      setDimension(newDimension); // Оновлюємо розмір матриці
+      setDimension(newDimension);
       setValues(selectedKernel.kernel.map(row => row.map(value => value.toString()))); // Заповнюємо матрицю значеннями фільтра
     }
   }, [selectedKernel]);
 
-  const handleInputChange = (rowIndex: number, index: number, event: React.ChangeEvent<HTMLInputElement>) => {
+  useEffect(() => {
+    resizeValues(dimension);
+  }, []);
+
+  const handleInputChange = (rowIndex: number, colIndex: number, event: React.ChangeEvent<HTMLInputElement>) => {
     setValues(prevValues => {
       const newValues = [...prevValues];
-      newValues[rowIndex][index] = event.target.value;
+      newValues[rowIndex][colIndex] = event.target.value;
       return newValues;
     });
+
+    const kernel: Kernel = {
+      title: 'Custom',
+      kernel: values.map(row => row.map(value => parseInt(value)))
+    }
+    setSelectedKernel(kernel)
   };
 
   const resizeValues = (newDimension: number) => {
@@ -39,6 +50,8 @@ export default function Matrix(props: Props) {
         )
       );
     });
+
+    console.log(values)
   };
 
   const returnValues = (rowIndex: number, colIndex: number): string => {
@@ -63,9 +76,8 @@ export default function Matrix(props: Props) {
       </div>
       <div className='mt-6'>
         {Array.from({length: dimension}, (_, rowIndex) => (
-          <div key={rowIndex} className="row">
+          <div className="row">
             {Array.from({length: dimension}, (_, colIndex) => (
-              // eslint-disable-next-line react/jsx-key
               <input
                 type="text"
                 className='input input-bordered p-1 text-center'
