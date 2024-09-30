@@ -1,6 +1,5 @@
 'use client'
 
-import React from 'react';
 import {filters} from "@/types/filters";
 import {useFilterContext} from "@/contexts/FilterContext";
 
