@@ -2,9 +2,6 @@ import FilterList from "@/components/lists/FilterList";
 import GradationList from "@/components/lists/GradationList";
 
 export default function NavBar() {
-  //TODO modify this
-
-
   return (
     <nav className="mb-8 fixed left-0 right-0 top-0 bg-[#444647] h-12">
       <div className="dropdown ">

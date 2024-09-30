@@ -79,6 +79,7 @@ export default function Matrix(props: Props) {
           <div className="row">
             {Array.from({length: dimension}, (_, colIndex) => (
               <input
+                key={colIndex+(rowIndex * 10)}
                 type="text"
                 className='input input-bordered p-1 text-center'
                 value={returnValues(rowIndex, colIndex)}
