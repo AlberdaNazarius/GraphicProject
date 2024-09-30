@@ -1,5 +1,6 @@
 import FilterList from "@/components/lists/FilterList";
 import GradationList from "@/components/lists/GradationList";
+import Tools from "@/components/lists/Tools";
 
 export default function NavBar() {
   return (
@@ -18,6 +19,14 @@ export default function NavBar() {
         </div>
         <ul tabIndex={1} className="dropdown-content menu bg-base-100 rounded-box z-[1] w-52 p-2 shadow">
           <GradationList/>
+        </ul>
+      </div>
+      <div className="dropdown ">
+        <div tabIndex={2} role="button"
+             className="btn bg-[#6d6f70] border-none rounded-none hover:bg-[#7f8385]">Tools
+        </div>
+        <ul tabIndex={2} className="dropdown-content menu bg-base-100 rounded-box z-[1] w-52 p-2 shadow">
+          <Tools/>
         </ul>
       </div>
     </nav>
