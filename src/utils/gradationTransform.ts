@@ -4,7 +4,8 @@ import {clamp} from "@/utils/imageUtils";
 export function applyGradationTransform(
   image: HTMLImageElement | null,
   modImage: HTMLImageElement | null,
-  type: Gradation) {
+  type: Gradation,
+  coefficient: number = 1) {
 
   //TODO move this code to another file
   if (!modImage || !image) {
@@ -36,7 +37,7 @@ export function applyGradationTransform(
       newData = logarithmicTransformation(data);
       break;
     case Gradation.Power:
-      newData = powerTransformation(data, 2);
+      newData = powerTransformation(data, coefficient);
       break;
   }
 

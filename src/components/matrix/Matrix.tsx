@@ -50,8 +50,6 @@ export default function Matrix(props: Props) {
         )
       );
     });
-
-    console.log(values)
   };
 
   const returnValues = (rowIndex: number, colIndex: number): string => {
