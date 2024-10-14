@@ -1,4 +1,5 @@
 import {Kernel} from "@/types/filters";
+import {canvasImageData, updateImage} from "@/utils/imageUtils";
 
 /**
  * Applies a convolution matrix filter to an image and updates the image element.
@@ -16,20 +17,11 @@ export const applyFilter = (
     return;
   }
 
-  const canvas = document.createElement('canvas');
-  const ctx = canvas.getContext('2d');
-  if (!ctx) return;
-
-  // Set canvas dimensions to match the image
-  canvas.width = image.width;
-  canvas.height = image.height;
-
-  // Draw the image onto the canvas
-  ctx.drawImage(image, 0, 0, image.width, image.height);
-
-  // Get the image data from the canvas
-  const imageData = ctx.getImageData(0, 0, image.width, image.height);
-  const data = imageData.data; // Array of pixel data (RGBA)
+  const canvasData = canvasImageData(image);
+  if (!canvasData) {
+    return;
+  }
+  const {data, imageData, canvas, ctx} = canvasData;
 
   // Filter kernel
   const { kernel } = filter;
@@ -71,10 +63,5 @@ export const applyFilter = (
     }
   }
 
-  // Put the filtered data back onto the canvas
-  imageData.data.set(newData);
-  ctx.putImageData(imageData, 0, 0);
-
-  // Convert the canvas back to a data URL and update the image
-  modImage.src = canvas.toDataURL();
+  updateImage({imageData, newData, modImage, canvas, ctx});
 };

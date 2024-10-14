@@ -1,5 +1,6 @@
 import {Gradation} from "@/types/gradation";
-import {clamp} from "@/utils/imageUtils";
+import {canvasImageData, clamp, updateImage} from "@/utils/imageUtils";
+import {loadProjectInfo} from "next/dist/build/webpack-config";
 
 export function applyGradationTransform(
   image: HTMLImageElement | null,
@@ -7,25 +8,15 @@ export function applyGradationTransform(
   type: Gradation,
   coefficient: number = 1) {
 
-  //TODO move this code to another file
-  if (!modImage || !image) {
+  if (!modImage) {
     return;
   }
 
-  const canvas = document.createElement('canvas');
-  const ctx = canvas.getContext('2d');
-  if (!ctx) return;
-
-  // Set canvas dimensions to match the image
-  canvas.width = image.width;
-  canvas.height = image.height;
-
-  // Draw the image onto the canvas
-  ctx.drawImage(image, 0, 0, image.width, image.height);
-
-  // Get the image data from the canvas
-  const imageData = ctx.getImageData(0, 0, image.width, image.height);
-  const data = imageData.data;
+  const canvasData = canvasImageData(image);
+  if (!canvasData) {
+    return;
+  }
+  const {data, imageData, canvas, ctx} = canvasData;
 
   let newData;
 
@@ -41,9 +32,7 @@ export function applyGradationTransform(
       break;
   }
 
-  imageData.data.set(newData);
-  ctx.putImageData(imageData, 0, 0);
-  modImage.src = canvas.toDataURL();
+  updateImage({imageData, newData, modImage, canvas, ctx});
 }
 
 function negativeTransformation(imageData: Uint8ClampedArray): Uint8ClampedArray {
