@@ -2,14 +2,18 @@
 import React from "react";
 import Images from "@/components/Images";
 import useCommonStore from "@/store/CommonStore";
+import ShowHistograms from "@/components/histogram/ShowHistograms";
 
 export default function FunctionalZone() {
-  const {image} = useCommonStore();
+  const {imageUrl, imageData} = useCommonStore();
 
   return (
     <div className='flex flex-col items-center'>
-      {image && (
-        <Images imagePath={image}/>
+      {imageUrl && (
+        <Images imagePath={imageUrl}/>
+      )}
+      {imageData && (
+        <ShowHistograms originalImageData={imageData}/>
       )}
     </div>
   );

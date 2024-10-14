@@ -8,7 +8,7 @@ import SaveImageBtn from "@/components/SaveImageBtn";
 
 const Tools: React.FC = () => {
   const {imageRef, modImageRef} = useImageContext();
-  const {setImage} = useCommonStore();
+  const {setImageUrl} = useCommonStore();
 
   const reset = () => {
     const originalImage = imageRef.current;
@@ -23,7 +23,7 @@ const Tools: React.FC = () => {
     const file = event.target.files?.[0];
     if (file) {
       const imageUrl = URL.createObjectURL(file);
-      setImage(imageUrl);
+      setImageUrl(imageUrl);
     }
   };
 

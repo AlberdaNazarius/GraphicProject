@@ -1,6 +1,5 @@
 import {Gradation} from "@/types/gradation";
 import {canvasImageData, clamp, updateImage} from "@/utils/imageUtils";
-import {loadProjectInfo} from "next/dist/build/webpack-config";
 
 export function applyGradationTransform(
   image: HTMLImageElement | null,

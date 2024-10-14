@@ -14,7 +14,6 @@ export function canvasImageData(image: HTMLImageElement | null) {
 
   // Draw the image onto the canvas
   ctx.drawImage(image, 0, 0, image.width, image.height);
-
   // Get the image data from the canvas
   const imageData = ctx.getImageData(0, 0, image.width, image.height);
   const data = imageData.data;

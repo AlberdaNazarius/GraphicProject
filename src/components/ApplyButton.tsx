@@ -18,7 +18,7 @@ const ApplyButton: React.FC = () => {
 
 
   return (
-    <button className='btn mt-4' onClick={useFilter}>
+    <button className='btn' onClick={useFilter}>
       Apply
     </button>
   );
