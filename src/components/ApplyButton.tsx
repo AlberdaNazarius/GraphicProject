@@ -1,3 +1,5 @@
+'use client'
+
 import React from 'react';
 import {useImageContext} from '@/contexts/ImageContext';
 import {useFilterContext} from '@/contexts/FilterContext';

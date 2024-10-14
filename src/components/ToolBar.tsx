@@ -5,8 +5,7 @@ import GradationList from "@/components/lists/GradationList";
 import Tools from "@/components/lists/Tools";
 import React from "react";
 
-// TODO rename to toolbar
-export default function NavBar() {
+export default function ToolBar() {
   const [gamma, setGamma] = React.useState(1);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {

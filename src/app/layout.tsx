@@ -1,7 +1,7 @@
 import type {Metadata} from "next";
 import localFont from "next/font/local";
 import "./globals.css";
-import NavBar from "@/components/NavBar";
+import ToolBar from "@/components/ToolBar";
 import {FilterProvider} from "@/contexts/FilterContext";
 import {ImageProvider} from "@/contexts/ImageContext";
 import Sidebar from "@/components/common/sidebar/Sidebar";
@@ -35,7 +35,7 @@ export default function RootLayout({
     <div>
       <ImageProvider>
         <FilterProvider>
-          <NavBar/>
+          <ToolBar/>
           <Sidebar/>
           {children}
         </FilterProvider>

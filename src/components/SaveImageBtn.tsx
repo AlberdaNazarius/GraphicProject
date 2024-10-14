@@ -14,7 +14,7 @@ const SaveImageBtn: React.FC = () => {
   };
 
   return (
-    <button className='w-fit border-[1px] border-black bg-[#f0f0f0] px-2 py-0.5' onClick={handleSaveImage}>Save Image</button>
+    <button onClick={handleSaveImage}>Save Image</button>
   );
 };
 

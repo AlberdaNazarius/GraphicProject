@@ -1,17 +1,29 @@
-import React from 'react';
+import React, {useRef} from 'react';
 
 interface Props {
   handleImageChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
 const ImageUploader: React.FC<Props> = ({handleImageChange}) => {
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const handleButtonClick = () => {
+    fileInputRef.current?.click();
+  };
+
   return (
-    <input
-      className="w-[97px] self-center"
-      type="file"
-      accept="image/*"
-      onChange={handleImageChange}
-    />
+    <>
+      <button onClick={handleButtonClick}>
+        Upload
+      </button>
+      <input
+        className="hidden"
+        ref={fileInputRef}
+        type="file"
+        accept="image/*"
+        onChange={handleImageChange}
+      />
+    </>
   );
 };
 

@@ -74,7 +74,7 @@ export default function Matrix(props: Props) {
       </div>
       <div className='mt-6'>
         {Array.from({length: dimension}, (_, rowIndex) => (
-          <div className="row">
+          <div key={rowIndex} className="row">
             {Array.from({length: dimension}, (_, colIndex) => (
               <input
                 key={colIndex+(rowIndex * 10)}
