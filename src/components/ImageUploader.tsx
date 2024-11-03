@@ -20,7 +20,7 @@ const ImageUploader: React.FC<Props> = ({handleImageChange}) => {
         className="hidden"
         ref={fileInputRef}
         type="file"
-        accept="image/*"
+        accept="image/*,.tif,.tiff"
         onChange={handleImageChange}
       />
     </>

@@ -5,8 +5,6 @@ export const fourierTransform = () => {
 }
 
 
-
-
 // export const inverseFourierTransform = (dftShifted, filter) => {
 //   // Perform the inverse Fourier transform
 //   const phasors = ifft(data);

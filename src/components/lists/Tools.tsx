@@ -32,14 +32,12 @@ const Tools: React.FC = () => {
   }
 
   return (
-    <>
-      <li>
-        <ImageUploader handleImageChange={handleImageChange}/>
-        <SaveImageBtn/>
-        <button onClick={handleFourier}>Fourier</button>
-        <button onClick={reset}>Reset</button>
-      </li>
-    </>
+    <li>
+      <ImageUploader handleImageChange={handleImageChange}/>
+      <SaveImageBtn/>
+      <button onClick={handleFourier}>Fourier</button>
+      <button onClick={reset}>Reset</button>
+    </li>
   )
 }
 
