@@ -1,5 +1,5 @@
 import {Kernel} from "@/types/filters";
-import {canvasImageData, updateImage} from "@/utils/imageUtils";
+import {canvasImageData, updateCanvasImage} from "@/utils/imageUtils";
 
 /**
  * Applies a convolution matrix filter to an image and updates the image element.
@@ -63,5 +63,5 @@ export const applyFilter = (
     }
   }
 
-  updateImage({imageData, newData, modImage, canvas, ctx});
+  updateCanvasImage({imageData, newData, modImage, canvas, ctx});
 };

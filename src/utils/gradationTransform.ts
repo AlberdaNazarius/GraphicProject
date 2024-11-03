@@ -1,5 +1,5 @@
 import {Gradation} from "@/types/gradation";
-import {canvasImageData, clamp, updateImage} from "@/utils/imageUtils";
+import {canvasImageData, clamp, updateCanvasImage} from "@/utils/imageUtils";
 
 export function applyGradationTransform(
   image: HTMLImageElement | null,
@@ -31,7 +31,7 @@ export function applyGradationTransform(
       break;
   }
 
-  updateImage({imageData, newData, modImage, canvas, ctx});
+  updateCanvasImage({imageData, newData, modImage, canvas, ctx});
 }
 
 function negativeTransformation(imageData: Uint8ClampedArray): Uint8ClampedArray {

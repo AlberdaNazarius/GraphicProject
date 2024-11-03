@@ -1,16 +1,33 @@
-import { useImageContext } from '@/contexts/ImageContext'
+import {useImageContext} from '@/contexts/ImageContext'
+import {useEffect} from "react";
+import useCommonStore from "@/store/CommonStore";
+import {updateImage} from "@/utils/imageUtils";
 
 interface Props {
   imagePath: string;
 }
 
-const Images: React.FC<Props> = ({ imagePath }) => {
-  const { imageRef, modImageRef } = useImageContext();
+const Images: React.FC<Props> = ({imagePath}) => {
+  const {imageRef, modImageRef} = useImageContext();
+  const {modifiedImageData} = useCommonStore();
+
+
+  useEffect(() => {
+    if (!modifiedImageData) {
+      return
+    }
+
+    updateImage({
+      data: modifiedImageData,
+      imageRef: imageRef,
+      modImageRef: modImageRef
+    });
+  }, [modifiedImageData]);
 
   return (
     <div className='flex mt-14 gap-10'>
-      <img className='grayscale' ref={imageRef} src={imagePath} width='500' alt="Original" />
-      <img id='mod-img' className='grayscale' ref={modImageRef} src={imagePath} alt="Modified" width='500' />
+      <img className='grayscale' ref={imageRef} src={imagePath} width='500' alt="Original"/>
+      <img id='mod-img' className='grayscale' ref={modImageRef} src={imagePath} alt="Modified" width='500'/>
     </div>
   );
 };

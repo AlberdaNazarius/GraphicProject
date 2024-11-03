@@ -23,3 +23,42 @@ export const histogramEqualization = (imageData: Uint8ClampedArray) => {
 
   return equalizedImage;
 };
+
+export const fillHistogram = (imageData: Uint8ClampedArray, arrayLength: number = 256) => {
+  const hist = new Array(arrayLength).fill(0);
+  for (let i = 0; i < imageData.length; i++) {
+    hist[imageData[i]]++;
+  }
+  return hist;
+}
+
+interface HistogramData {
+  histogram: number[];
+  cdf: number[];
+  cdfNormalized: number[];
+}
+
+export function calculateHistogramAndCDF(imageData: Uint8ClampedArray): HistogramData {
+  const histogram = new Array(256).fill(0);
+  const cdf = new Array(256).fill(0);
+  const cdfNormalized = new Array(256).fill(0);
+
+  // Calculate histogram
+  for (let i = 0; i < imageData.length; i++) {
+    histogram[imageData[i]]++;
+  }
+
+  // Calculate CDF
+  cdf[0] = histogram[0];
+  for (let i = 1; i < 256; i++) {
+    cdf[i] = cdf[i - 1] + histogram[i];
+  }
+
+  // Normalize CDF
+  const cdfMax = cdf[255];
+  for (let i = 0; i < 256; i++) {
+    cdfNormalized[i] = (cdf[i] * 255) / cdfMax;
+  }
+
+  return { histogram, cdf, cdfNormalized };
+}

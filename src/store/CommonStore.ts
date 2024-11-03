@@ -3,15 +3,21 @@ import {create} from 'zustand'
 type CommonStore = {
   imageUrl: string
   setImageUrl: (ref: string) => void
-  imageData: Uint8ClampedArray
+
+  imageData: Uint8ClampedArray | null
   setImageData: (data: Uint8ClampedArray) => void
+
+  modifiedImageData: Uint8ClampedArray | null
+  setModifiedImageData: (data: Uint8ClampedArray) => void
 }
 
 const useCommonStore = create<CommonStore>()((set) => ({
   imageUrl: '',
   setImageUrl: (ref: string) => set(() => ({imageUrl: ref})),
-  imageData: new Uint8ClampedArray(0),
-  setImageData: (data: Uint8ClampedArray) => set(() => ({imageData: data}))
+  imageData: null,
+  setImageData: (data: Uint8ClampedArray) => set(() => ({imageData: data})),
+  modifiedImageData: null,
+  setModifiedImageData: (data: Uint8ClampedArray) => set(() => ({modifiedImageData: data})),
 }))
 
 export default useCommonStore;
