@@ -6,8 +6,8 @@ import {useImageContext} from "@/contexts/ImageContext";
 import useCommonStore from "@/store/CommonStore";
 
 const DrawHistogramBtn = () => {
-  const {imageRef} = useImageContext();
-  const {setImageData} = useCommonStore();
+  const {imageRef, modImageRef} = useImageContext();
+  const {setImageData, setModifiedImageData} = useCommonStore();
 
   const handleClick = () => {
     const canvasData = canvasImageData(imageRef.current);
@@ -15,6 +15,13 @@ const DrawHistogramBtn = () => {
       return;
     }
     setImageData(canvasData.data);
+
+    const modCanvasData = canvasImageData(modImageRef.current);
+    if (!modCanvasData) {
+      return;
+    }
+
+    setModifiedImageData(modCanvasData.data);
   }
 
   return (

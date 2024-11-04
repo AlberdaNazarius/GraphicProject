@@ -11,7 +11,6 @@ const Images: React.FC<Props> = ({imagePath}) => {
   const {imageRef, modImageRef} = useImageContext();
   const {modifiedImageData} = useCommonStore();
 
-
   useEffect(() => {
     if (!modifiedImageData) {
       return

@@ -10,7 +10,10 @@ const generateGaussianNoise = (mean = 0, sigma = 1) => {
 
 const generateRayleighNoise = (sigma: number) => {
   const u = Math.random();
-  return sigma * Math.sqrt(-2.0 * Math.log(1 - u));
+  const noise = sigma * Math.sqrt(-2.0 * Math.log(1 - u));
+
+  // Зміщення шуму так, щоб він мав середнє значення, близьке до 0
+  return noise - sigma * Math.sqrt(Math.PI / 2);
 };
 
 const generateImpulseNoise = (probability: number) => {

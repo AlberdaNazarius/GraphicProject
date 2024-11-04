@@ -5,15 +5,15 @@ import useCommonStore from "@/store/CommonStore";
 import ShowHistograms from "@/components/histogram/ShowHistograms";
 
 export default function FunctionalZone() {
-  const {imageUrl, imageData} = useCommonStore();
+  const {imageUrl, imageData, modifiedImageData} = useCommonStore();
 
   return (
     <div className='flex flex-col items-center'>
       {imageUrl && (
         <Images imagePath={imageUrl}/>
       )}
-      {imageData && (
-        <ShowHistograms originalImageData={imageData}/>
+      {imageData && modifiedImageData && (
+        <ShowHistograms originalImageData={imageData} modifiedImageData={modifiedImageData}/>
       )}
     </div>
   );
