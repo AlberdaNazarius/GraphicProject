@@ -16,26 +16,34 @@ const generateRayleighNoise = (sigma: number) => {
   return noise - sigma * Math.sqrt(Math.PI / 2);
 };
 
-const generateImpulseNoise = (probability: number) => {
+const generateImpulseNoise = (blackProbability: number, whiteProbability: number) => {
   const random = Math.random();
-  if (random < probability / 2) return -255; // Чорний імпульс
-  if (random < probability) return 255; // Білий імпульс
+
+  if (random < blackProbability) return -255; // Чорний імпульс
+  if (random < blackProbability + whiteProbability) return 255; // Білий імпульс
   return 0; // Без змін
 };
 
-const applyNoiseToData = (data: Uint8ClampedArray, noiseLevel: number, noiseType: NoisesType) => {
+const applyNoiseToData = (
+  data: Uint8ClampedArray,
+  noiseLevel: number,
+  mean: number,
+  noiseType: NoisesType,
+  blackProp: number,
+  whiteProb: number
+) => {
   const newData = new Uint8ClampedArray(data);
   for (let i = 0; i < newData.length; i += 4) {
     let noise = 0;
     switch (noiseType) {
       case NoisesType.GAUSSIAN:
-        noise = generateGaussianNoise(0, noiseLevel);
+        noise = generateGaussianNoise(mean, noiseLevel);
         break;
       case NoisesType.RAYLEIGH:
         noise = generateRayleighNoise(noiseLevel);
         break;
       case NoisesType.IMPULSE:
-        noise = generateImpulseNoise(noiseLevel / 100);
+        noise = generateImpulseNoise(blackProp, whiteProb);
         break;
       default:
         break;
@@ -51,7 +59,10 @@ export const applyNoiseToImage = (
   image: HTMLImageElement | null,
   modImage: HTMLImageElement | null,
   noiseLevel: number,
-  noiseType: NoisesType
+  mean: number,
+  noiseType: NoisesType,
+  blackProp: number,
+  whiteProb: number
 ) => {
 
   if (!image || !modImage) return;
@@ -62,7 +73,7 @@ export const applyNoiseToImage = (
   }
   const {data, imageData, canvas, ctx} = canvasData;
 
-  const newData = applyNoiseToData(data, noiseLevel, noiseType);
+  const newData = applyNoiseToData(data, noiseLevel, mean, noiseType, blackProp, whiteProb);
 
   updateCanvasImage({imageData, newData, modImage, canvas, ctx});
 };

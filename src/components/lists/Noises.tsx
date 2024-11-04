@@ -3,22 +3,24 @@ import {applyNoiseToImage} from "@/utils/noises";
 import {useImageContext} from "@/contexts/ImageContext";
 import {NoisesRemovalType, NoisesType} from "@/types/noises";
 import {applyNoiseRemovalFiler} from "@/utils/noiseRemoval";
+import useValueStore from "@/store/ValueStore";
 
 const Noises: React.FC = () => {
   const {imageRef, modImageRef} = useImageContext();
-  const noiseLevel = 30;
+
+  const {noiseMean, noiseLevel, filterSize, blackDots, whiteDots } = useValueStore();
 
   const handleNoiseClick = (type: NoisesType) => {
     const image = imageRef.current;
     const modImage = modImageRef.current;
-    applyNoiseToImage(image, modImage, noiseLevel, type);
+    applyNoiseToImage(image, modImage, noiseLevel, noiseMean, type, blackDots, whiteDots);
   }
 
   const handleNoiseRemovalClick = (type: NoisesRemovalType) => {
     const image = imageRef.current;
     const modImage = modImageRef.current;
 
-    applyNoiseRemovalFiler(image, modImage, 3, type);
+    applyNoiseRemovalFiler(image, modImage, filterSize, type);
   }
 
   return (
