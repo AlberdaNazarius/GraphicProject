@@ -7,11 +7,7 @@ import React from "react";
 import Noises from "@/components/lists/Noises";
 
 export default function ToolBar() {
-  const [gamma, setGamma] = React.useState(1);
-
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setGamma(Number(event.target.value));
-  };
+  const [gamma] = React.useState(1);
 
   return (
     <nav className="mb-8 fixed left-0 right-0 top-0 bg-[#444647] h-12 z-[1000]">
@@ -47,7 +43,16 @@ export default function ToolBar() {
           <Tools/>
         </ul>
       </div>
-      <input onChange={handleChange} className='ml-3' placeholder='gamma'/>
+      <div className="dropdown">
+        <div tabIndex={4} role="button"
+             className="btn bg-[#6d6f70] border-none rounded-none hover:bg-[#7f8385]">Other
+        </div>
+        <ul tabIndex={4} className="dropdown-content menu bg-base-100 rounded-box w-52 p-2 shadow">
+          <li>
+            <button>Fourier</button>
+          </li>
+        </ul>
+      </div>
     </nav>
   )
 }

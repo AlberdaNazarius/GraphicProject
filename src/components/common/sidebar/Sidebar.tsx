@@ -8,7 +8,7 @@ import EqualizeBtn from "@/components/button/EqualizeBtn";
 import useValueStore from "@/store/ValueStore";
 
 const Sidebar = () => {
-  const {setNoiseMean, setNoiseLevel, setFilterSize, setWhiteDots, setBlackDots } = useValueStore();
+  const {setNoiseMean, setNoiseLevel, setFilterSize, setWhiteDots, setBlackDots, setGamma} = useValueStore();
   return (
     <div className='sidebar flex flex-col items-center gap-3'>
       <Matrix dimension={3}/>
@@ -17,8 +17,13 @@ const Sidebar = () => {
         <DrawHistogramBtn/>
       </div>
       <EqualizeBtn/>
-      <div className='flex flex-col gap-5'>
-        <h3 className='text-xl font-bold'>Values</h3>
+      <div className='flex flex-col gap-5 mt-4'>
+        <h3 className='text-xl font-bold text-center'>Values</h3>
+        <h4 className='text-lg font-bold'>Gradiation</h4>
+        <div>
+          <label>Gamma: </label>
+          <input onChange={(e) => setGamma(parseFloat(e.target.value))}/>
+        </div>
         <h4 className='text-lg font-bold'>Noise</h4>
         <div>
           <label>Noise Mean: </label>

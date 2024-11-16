@@ -27,15 +27,10 @@ const Tools: React.FC = () => {
     }
   };
 
-  const handleFourier = () => {
-
-  }
-
   return (
     <li>
       <ImageUploader handleImageChange={handleImageChange}/>
       <SaveImageBtn/>
-      <button onClick={handleFourier}>Fourier</button>
       <button onClick={reset}>Reset</button>
     </li>
   )
