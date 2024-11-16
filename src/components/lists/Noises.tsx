@@ -19,8 +19,9 @@ const Noises: React.FC = () => {
   const handleNoiseRemovalClick = (type: NoisesRemovalType) => {
     const image = imageRef.current;
     const modImage = modImageRef.current;
+    const size = 3;
 
-    applyNoiseRemovalFiler(image, modImage, filterSize, type);
+    applyNoiseRemovalFiler(image, modImage, size, filterSize, type);
   }
 
   return (
@@ -28,7 +29,7 @@ const Noises: React.FC = () => {
       <button onClick={() => handleNoiseClick(NoisesType.GAUSSIAN)}>Gaussian</button>
       <button onClick={() => handleNoiseClick(NoisesType.RAYLEIGH)}>Rayleigh</button>
       <button onClick={() => handleNoiseClick(NoisesType.IMPULSE)}>Impulse</button>
-      <button onClick={() => handleNoiseRemovalClick(NoisesRemovalType.MEAN)}>Mean</button>
+      <button onClick={() => handleNoiseRemovalClick(NoisesRemovalType.MEAN)} className='mt-4'>Mean</button>
       <button onClick={() => handleNoiseRemovalClick(NoisesRemovalType.GEOMETRIC_MEAN)}>Geometric mean</button>
       <button onClick={() => handleNoiseRemovalClick(NoisesRemovalType.HARMONIC_MEAN)}>Harmonic mean</button>
       <button onClick={() => handleNoiseRemovalClick(NoisesRemovalType.CONTRAHARMONIC_MEAN)}>Contraharmonic mean</button>

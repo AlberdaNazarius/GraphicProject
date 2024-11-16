@@ -114,7 +114,7 @@ function applyContraharmonicFilter(
   width: number,
   height: number,
   windowSize: number = 3,
-  Q: number = 1
+  Q: number = 1.5
 ): Uint8ClampedArray {
   const halfWindowSize = Math.floor(windowSize / 2);
   const outputData = new Uint8ClampedArray(imageData.length);
@@ -205,6 +205,7 @@ export const applyNoiseRemovalFiler = (
   image: HTMLImageElement | null,
   modImage: HTMLImageElement | null,
   filterSize: number,
+  q: number,
   type: NoisesRemovalType
 ) => {
   if (!image || !modImage) return;
@@ -228,7 +229,7 @@ export const applyNoiseRemovalFiler = (
       newData = applyHarmonicFilter(data, canvas.width, canvas.height, filterSize);
       break;
     case NoisesRemovalType.CONTRAHARMONIC_MEAN:
-      newData = applyContraharmonicFilter(data, canvas.width, canvas.height, filterSize);
+      newData = applyContraharmonicFilter(data, canvas.width, canvas.height, filterSize, q);
       break;
     case NoisesRemovalType.MEDIAN:
       newData = applyMedianFilter(data, canvas.width, canvas.height, filterSize);

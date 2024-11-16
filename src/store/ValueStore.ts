@@ -1,6 +1,9 @@
 import {create} from 'zustand'
 
 type ValueStore = {
+  gamma: number;
+  setGamma: (gamma: number) => void;
+
   noiseMean: number;
   setNoiseMean: (mean: number) => void;
   noiseLevel: number;
@@ -15,6 +18,8 @@ type ValueStore = {
 }
 
 const useValueStore = create<ValueStore>((set) => ({
+  gamma: 1,
+  setGamma: (gamma: number) => set({gamma: gamma}),
   noiseMean: 0,
   setNoiseMean: (mean: number) => set({noiseMean: mean}),
   noiseLevel: 30,

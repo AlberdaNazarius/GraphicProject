@@ -29,11 +29,11 @@ const Sidebar = () => {
           <input onChange={(e) => setNoiseLevel(parseFloat(e.target.value))}/>
         </div>
         <div>
-          <label>Black: </label>
+          <label>Black prob: </label>
           <input onChange={(e) => setBlackDots(parseFloat(e.target.value))}/>
         </div>
         <div>
-          <label>White: </label>
+          <label>White prob: </label>
           <input onChange={(e) => setWhiteDots(parseFloat(e.target.value))}/>
         </div>
         <h4 className='text-lg font-bold'>Noise removal</h4>
