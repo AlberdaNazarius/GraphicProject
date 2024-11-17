@@ -3,13 +3,12 @@
 import {useImageContext} from "@/contexts/ImageContext";
 import {Gradation} from "@/types/gradation";
 import {applyGradationTransform} from "@/utils/gradationTransform";
+import valueStore from "@/store/ValueStore";
 
-interface Props {
-  gamma: number;
-}
 
-const FilterList: React.FC<Props> = ({gamma}: Props) => {
+const FilterList: React.FC = () => {
   const {imageRef, modImageRef} = useImageContext();
+  const {gamma} = valueStore();
 
   const handleGradation = (gradation: Gradation) => {
     const image = imageRef.current;
