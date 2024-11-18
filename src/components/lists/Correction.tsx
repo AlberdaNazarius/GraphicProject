@@ -19,6 +19,7 @@ const Correction: React.FC = ({}) => {
       <button onClick={() => handleCorrectionClick(CorrectionTypes.LEVEL_ADJUSTMENT)}>Level Correction</button>
       <button onClick={() => handleCorrectionClick(CorrectionTypes.GAMMA_CORRECTION)}>Gamma Correction</button>
       <button onClick={() => handleCorrectionClick(CorrectionTypes.LEVEL_AND_GAMMA)}>Level&Gamma Correction</button>
+      <button onClick={() => handleCorrectionClick(CorrectionTypes.HISTOGRAM)}>Histogram Correction</button>
     </li>
   )
 }

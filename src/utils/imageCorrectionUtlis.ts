@@ -85,7 +85,52 @@ export const applyColorBalanceFilter = (
     case CorrectionTypes.LEVEL_AND_GAMMA:
       newData = adjustLevelsAndApplyGamma(data, min, max, gamma);
       break;
+    case CorrectionTypes.HISTOGRAM:
+      newData = histogramEqualization(data);
+      break;
   }
 
   updateCanvasImage({imageData, newData, modImage, canvas, ctx});
 };
+
+function histogramEqualization(data: Uint8ClampedArray) {
+  // Process each color channel separately
+  const outputData = new Uint8ClampedArray(data.length);
+
+  for (let channel = 0; channel < 3; channel++) {
+    // Initialize histogram and CDF
+    const histogram = new Array(256).fill(0);
+    const cdf = new Array(256).fill(0);
+
+    // Calculate the histogram
+    for (let i = channel; i < data.length; i += 4) {
+      histogram[data[i]]++;
+    }
+
+    // Calculate the CDF
+    cdf[0] = histogram[0];
+    for (let i = 1; i < 256; i++) {
+      cdf[i] = cdf[i - 1] + histogram[i];
+    }
+
+    // Normalize the CDF
+    const cdfMin = cdf.find(value => value > 0);
+    const cdfMax = cdf[255];
+
+    for (let i = 0; i < 256; i++) {
+      cdf[i] = ((cdf[i] - cdfMin) / (cdfMax - cdfMin)) * 255;
+    }
+
+    // Apply equalized histogram
+    for (let i = channel; i < data.length; i += 4) {
+      outputData[i] = cdf[data[i]];
+    }
+  }
+
+  // Copy alpha channel
+  for (let i = 3; i < data.length; i += 4) {
+    outputData[i] = data[i];
+  }
+
+  return outputData;
+}
