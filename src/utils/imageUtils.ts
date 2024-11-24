@@ -67,3 +67,20 @@ export function updateImage(updateData: UpdateImageParams) {
     modImageRef.current.src = canvas.toDataURL();
   }
 }
+
+export function findMinMax(data: Uint8ClampedArray) {
+  const min = { r: 255, g: 255, b: 255 };
+  const max = { r: 0, g: 0, b: 0 };
+
+  for (let i = 0; i < data.length; i += 4) {
+    min.r = Math.min(min.r, data[i]);      // Red channel
+    min.g = Math.min(min.g, data[i + 1]);  // Green channel
+    min.b = Math.min(min.b, data[i + 2]);  // Blue channel
+
+    max.r = Math.max(max.r, data[i]);
+    max.g = Math.max(max.g, data[i + 1]);
+    max.b = Math.max(max.b, data[i + 2]);
+  }
+
+  return { min, max };
+}
