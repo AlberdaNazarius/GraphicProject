@@ -8,9 +8,10 @@ interface HistogramProps {
   data: number[];
   title: string;
   type?: 'bar' | 'line';
+  color?: string;
 }
 
-const Histogram: React.FC<HistogramProps> = ({ data, title }) => {
+const Histogram: React.FC<HistogramProps> = ({ data, title, color = 'rgba(0, 123, 255, 0.5)' }) => {
   const [chart, setChartData] = React.useState<number[]>([]);
   useEffect(() => {
     setChartData(data.slice(0, -1));
@@ -22,7 +23,7 @@ const Histogram: React.FC<HistogramProps> = ({ data, title }) => {
       {
         label: title,
         data: chart,
-        backgroundColor: 'rgba(0, 123, 255, 0.5)',
+        backgroundColor: color,
       },
     ],
   };

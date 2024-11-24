@@ -6,6 +6,7 @@ import ApplyButton from "@/components/ApplyButton";
 import DrawHistogramBtn from "@/components/button/DrawHistogramBtn";
 import EqualizeBtn from "@/components/button/EqualizeBtn";
 import useValueStore from "@/store/ValueStore";
+import DrawColorsHistogramBtn from '@/components/button/DrawColorsHistogramBtn';
 
 const Sidebar = () => {
   const {setNoiseMean, setNoiseLevel, setFilterSize, setWhiteDots, setBlackDots, setGamma} = useValueStore();
@@ -16,7 +17,10 @@ const Sidebar = () => {
         <ApplyButton/>
         <DrawHistogramBtn/>
       </div>
-      <EqualizeBtn/>
+      <div className='mt-4 flex gap-5'>
+        <EqualizeBtn/>
+        <DrawColorsHistogramBtn/>
+      </div>
       <div className='flex flex-col gap-5 mt-4'>
         <h3 className='text-xl font-bold text-center'>Values</h3>
         <h4 className='text-lg font-bold'>Gradiation</h4>

@@ -12,6 +12,9 @@ type CommonStore = {
 
   equalize: boolean;
   setEqualize: (value: boolean) => void;
+
+  rgbHistograms: boolean;
+  setRgbHistograms: (value: boolean) => void;
 }
 
 const useCommonStore = create<CommonStore>()((set) => ({
@@ -23,6 +26,8 @@ const useCommonStore = create<CommonStore>()((set) => ({
   setModifiedImageData: (data: Uint8ClampedArray) => set(() => ({modifiedImageData: data})),
   equalize: false,
   setEqualize: (value: boolean) => set(() => ({equalize: value})),
+  rgbHistograms: false,
+  setRgbHistograms: (value: boolean) => set(() => ({rgbHistograms: value})),
 }))
 
 export default useCommonStore;

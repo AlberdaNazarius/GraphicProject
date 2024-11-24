@@ -32,6 +32,22 @@ export const fillHistogram = (imageData: Uint8ClampedArray, arrayLength: number 
   return hist;
 }
 
+export const fillHistogramsForEachChannel = (imageData: Uint8ClampedArray, arrayLength: number = 256) => {
+  const histograms = {
+    red: new Array(arrayLength).fill(0),
+    green: new Array(arrayLength).fill(0),
+    blue: new Array(arrayLength).fill(0)
+  };
+
+  for (let i = 0; i < imageData.length; i += 4) {
+    histograms.red[imageData[i]]++;       // Red channel
+    histograms.green[imageData[i + 1]]++; // Green channel
+    histograms.blue[imageData[i + 2]]++;  // Blue channel
+  }
+
+  return histograms;
+}
+
 interface HistogramData {
   histogram: number[];
   cdf: number[];
