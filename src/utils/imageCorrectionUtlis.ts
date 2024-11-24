@@ -78,18 +78,34 @@ export const applyColorBalanceFilter = (
 };
 
 
-function histogramEqualization(data: Uint8ClampedArray) {
+function histogramEqualization(data: Uint8ClampedArray, clipLimit = 255) {
   // Process each color channel separately
   const outputData = new Uint8ClampedArray(data.length);
 
   for (let channel = 0; channel < 3; channel++) {
-    // Initialize histogram and CDF
     const histogram = new Array(256).fill(0);
     const cdf = new Array(256).fill(0);
 
     // Calculate the histogram
     for (let i = channel; i < data.length; i += 4) {
       histogram[data[i]]++;
+    }
+
+    // Apply contrast limiting
+    if (clipLimit < 255) {
+      let excess = 0;
+      for (let i = 0; i < 256; i++) {
+        if (histogram[i] > clipLimit) {
+          excess += histogram[i] - clipLimit;
+          histogram[i] = clipLimit;
+        }
+      }
+
+      // Redistribute excess
+      let increment = excess / 256;
+      for (let i = 0; i < 256; i++) {
+        histogram[i] += increment;
+      }
     }
 
     // Calculate the CDF
@@ -102,14 +118,13 @@ function histogramEqualization(data: Uint8ClampedArray) {
     const cdfMin = cdf.find(value => value > 0) || 0;
     const cdfMax = cdf[255];
 
-    if (cdfMax === cdfMin) { // Handle case where all pixels are the same
+    if (cdfMax === cdfMin) {
       for (let i = channel; i < data.length; i += 4) {
         outputData[i] = data[i]; // No change
       }
     } else {
       for (let i = 0; i < 256; i++) {
-        cdf[i] = ((cdf[i] - cdfMin) / (cdfMax - cdfMin)) * 255;
-        cdf[i] = Math.round(cdf[i]); // Ensure integer values
+        cdf[i] = Math.round(((cdf[i] - cdfMin) / (cdfMax - cdfMin)) * 255);
       }
 
       // Apply equalized histogram

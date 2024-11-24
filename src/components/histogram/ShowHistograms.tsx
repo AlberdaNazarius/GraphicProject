@@ -51,26 +51,31 @@ const ShowHistograms: React.FC<ShowHistogramsProps> = ({originalImageData, modif
 
   return (
     <div className='flex items-center flex-col'>
-      {!rgbHistograms &&
-          <div className='flex gap-10 mt-6'>
-            <Histogram data={originalHist} title="Original Histogram"/>
-            <Histogram data={filteredHist} title="Filtered Histogram"/>
-          </div>
-      }
-      {rgbHistograms &&
-          <div className='mt-4'>
-            <div className='flex'>
-              <Histogram data={rgbHistogramsOriginal.red} title="Original Histogram" color='red'/>
-              <Histogram data={rgbHistogramsOriginal.blue} title="Original Histogram" color='blue'/>
-              <Histogram data={rgbHistogramsOriginal.green} title="Original Histogram" color='green'/>
+      {(() => {
+        if (!rgbHistograms) {
+          return (
+            <div className='flex gap-10 mt-6'>
+              <Histogram data={originalHist} title="Original Histogram"/>
+              <Histogram data={filteredHist} title="Filtered Histogram"/>
             </div>
-            <div className='flex'>
-              <Histogram data={filteredRgbHistograms.red} title="Filtered Histogram" color='red'/>
-              <Histogram data={filteredRgbHistograms.blue} title="Filtered Histogram" color='blue'/>
-              <Histogram data={filteredRgbHistograms.green} title="Filtered Histogram" color='green'/>
+          );
+        } else {
+          return (
+            <div className='mt-4'>
+              <div className='flex'>
+                <Histogram data={rgbHistogramsOriginal.red} title="Original Histogram" color='red'/>
+                <Histogram data={rgbHistogramsOriginal.blue} title="Original Histogram" color='blue'/>
+                <Histogram data={rgbHistogramsOriginal.green} title="Original Histogram" color='green'/>
+              </div>
+              <div className='flex'>
+                <Histogram data={filteredRgbHistograms.red} title="Filtered Histogram" color='red'/>
+                <Histogram data={filteredRgbHistograms.blue} title="Filtered Histogram" color='blue'/>
+                <Histogram data={filteredRgbHistograms.green} title="Filtered Histogram" color='green'/>
+              </div>
             </div>
-          </div>
-      }
+          );
+        }
+      })()}
       {cdfNormalized.length > 0 && <Histogram data={cdfNormalized} title="CDF Normalized" type='line'/>}
     </div>
   );
