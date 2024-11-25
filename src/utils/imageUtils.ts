@@ -84,3 +84,31 @@ export function findMinMax(data: Uint8ClampedArray) {
 
   return { min, max };
 }
+
+export const calculateGammaFromMedian = (median) => {
+  const normalizedMedian = median / 255;
+
+  if (normalizedMedian === 0) return 1.0; // Avoid division by zero
+  return Math.log(0.5) / Math.log(normalizedMedian); // Derive gamma
+};
+
+export const createGammaLUT = (gamma) => {
+  const lut = new Uint8Array(256);
+  for (let i = 0; i < 256; i++) {
+    lut[i] = Math.min(255, Math.max(0, Math.pow(i / 255, gamma) * 255)); // Gamma correction formula
+  }
+  return lut;
+};
+
+export const calculateMedian = (histogram, totalPixels) => {
+  let cumulativeSum = 0;
+
+  for (let i = 0; i < histogram.length; i++) {
+    cumulativeSum += histogram[i];
+    if (cumulativeSum >= totalPixels / 2) {
+      return i; // Return the brightness level corresponding to the median
+    }
+  }
+
+  return 127; // Fallback if something goes wrong
+};

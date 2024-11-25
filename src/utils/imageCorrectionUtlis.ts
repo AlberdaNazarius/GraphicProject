@@ -1,4 +1,10 @@
-import {canvasImageData, findMinMax, updateCanvasImage} from "@/utils/imageUtils";
+import {
+  calculateGammaFromMedian, calculateMedian,
+  canvasImageData,
+  createGammaLUT,
+  findMinMax,
+  updateCanvasImage
+} from "@/utils/imageUtils";
 import {CorrectionTypes} from "@/types/imageCorrection";
 
 type ColorChannels = {
@@ -27,16 +33,48 @@ export const applyLevelAdjustment = (data: Uint8ClampedArray, minValues: ColorCh
 };
 
 
-export const applyGammaCorrection = (data: Uint8ClampedArray, gammaValues: ColorChannels) => {
+export const applyGammaCorrection = (data: Uint8ClampedArray) => {
   const outputData = new Uint8ClampedArray(data.length);
 
+  // Step 1: Compute histograms for each channel
+  const histograms = { r: new Array(256).fill(0), g: new Array(256).fill(0), b: new Array(256).fill(0) };
+
   for (let i = 0; i < data.length; i += 4) {
-    ['r', 'g', 'b'].forEach((channel, index) => {
-      const gammaCorrection = 1 / gammaValues[channel];
-      outputData[i + index] = 255 * Math.pow((data[i + index] / 255), gammaCorrection);
-    });
-    outputData[i + 3] = data[i + 3];
+    histograms.r[data[i]]++;       // Red channel
+    histograms.g[data[i + 1]]++;   // Green channel
+    histograms.b[data[i + 2]]++;   // Blue channel
   }
+
+  // Step 2: Calculate median brightness for each channel
+  const totalPixels = data.length / 4; // Total number of pixels
+  const medians = {
+    r: calculateMedian(histograms.r, totalPixels),
+    g: calculateMedian(histograms.g, totalPixels),
+    b: calculateMedian(histograms.b, totalPixels),
+  };
+
+  // Step 3: Calculate gamma values based on median brightness
+  const gammaValues = {
+    r: calculateGammaFromMedian(medians.r),
+    g: calculateGammaFromMedian(medians.g),
+    b: calculateGammaFromMedian(medians.b),
+  };
+
+  // Step 4: Create lookup tables (LUT) for each channel
+  const lut = {
+    r: createGammaLUT(gammaValues.r),
+    g: createGammaLUT(gammaValues.g),
+    b: createGammaLUT(gammaValues.b),
+  };
+
+  // Step 5: Apply the LUT to the image data
+  for (let i = 0; i < data.length; i += 4) {
+    outputData[i] = lut.r[data[i]];       // Red channel
+    outputData[i + 1] = lut.g[data[i + 1]]; // Green channel
+    outputData[i + 2] = lut.b[data[i + 2]]; // Blue channel
+    outputData[i + 3] = data[i + 3];       // Preserve Alpha channel
+  }
+
   return outputData;
 };
 
@@ -62,12 +100,11 @@ export const applyColorBalanceFilter = (
       newData = applyLevelAdjustment(data, min, max);
       break;
     case CorrectionTypes.GAMMA_CORRECTION:
-      const gammaValues = { r: gamma, g: gamma, b: gamma };
-      newData = applyGammaCorrection(data, gammaValues);
+      newData = applyGammaCorrection(data);
       break;
     case CorrectionTypes.LEVEL_AND_GAMMA:
       newData = applyLevelAdjustment(data, min, max);
-      newData = applyGammaCorrection(newData, { r: gamma, g: gamma, b: gamma });
+      newData = applyGammaCorrection(newData);
       break;
     case CorrectionTypes.HISTOGRAM:
       newData = histogramEqualization(data);
@@ -102,7 +139,7 @@ function histogramEqualization(data: Uint8ClampedArray, clipLimit = 255) {
       }
 
       // Redistribute excess
-      let increment = excess / 256;
+      const increment = excess / 256;
       for (let i = 0; i < 256; i++) {
         histogram[i] += increment;
       }
